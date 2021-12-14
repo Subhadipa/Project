@@ -47,14 +47,22 @@ const createUrl = async function (req, res)
             return res.status(400).send({ status: false, message: "Numbers are not allowed" })
         }
         
-        const longUrl = req.body.longUrl.trim() 
-        //console.log(longUrl)
-        //console.log(validUrl.isWebUri(longUrl),"hello")
-        
-      if(!validUrl.isWebUri(longUrl))
-       {
-        return res.status(400).send({ status: false, message: "Please provide valid url" })
-       }
+        let longUrl = req.body.longUrl.trim() 
+      
+            if (validation.validhttpsLower(longUrl)) 
+            {
+                const regex = /^https?:\/\//
+                longUrl = longUrl.replace(regex, "https://")
+            }
+            if (validation.validhttpsUpper(longUrl)) 
+            {
+                const regex = /^HTTPS?:\/\//
+                longUrl = longUrl.replace(regex, "https://")
+            }
+            if (!validation.validateUrl(longUrl)) 
+            {
+                return res.status(400).send({ status: false, message: "Please provide valid URL" })
+            }
         const baseUrl = 'http://localhost:3000'  
 
         if (!validUrl.isUri(baseUrl)) //uniform resource identifier
@@ -98,7 +106,7 @@ const createUrl = async function (req, res)
                     const details = await urlModel.create(urlData);
                     await SET_ASYNC(`${longUrl}`, JSON.stringify(details))
                     const resUrl = { longUrl: details.longUrl, shortUrl, urlCode }
-                  res.status(201).json({ status: true, msg: "New Url create", data: resUrl })
+                  res.status(201).json({ status: true, msg: "New Url created", data: resUrl })
                    
                 }
               
@@ -127,7 +135,7 @@ const getUrl = async function (req, res)
     try
     {
         const urlCode = req.params.urlCode;
-        console.log(urlCode)
+        //console.log(urlCode)
         let cahcedProfileData = await GET_ASYNC(`${req.params.urlCode}`)
      
         if(cahcedProfileData) 
