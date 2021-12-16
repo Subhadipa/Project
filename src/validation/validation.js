@@ -8,13 +8,6 @@ const isValid = function (value) {
     return true;
 }
 
-/*const validUrl=function(value)
-{
-    
-    regx=(/(ftp|http|https|HTTP|HTTPS):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/)
-    let res = value.match(regx)
-    return (res !== null)
-    //return !!pattern.test(value);
-}*/
+
 
 module.exports={isValidReqBody,isValid}

@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 
-const urlController = require("../controllers/urlController")
+const bookController = require("../controllers/bookController")
 
-router.post('/url/shorten', urlController.createUrl);
-router.get('/:urlCode', urlController.getUrl);
+router.post('/books',bookController.createBook);
+router.get('/books/:bookId',bookController.getBook);
 
 
 module.exports = router;
